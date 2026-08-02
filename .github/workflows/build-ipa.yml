@@ -11,6 +11,12 @@ jobs:
   build-ipa:
     runs-on: macos-15
     timeout-minutes: 60
+    env:
+      IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+      IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+      IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+      IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+      IOS_EXPORT_METHOD: ${{ secrets.IOS_EXPORT_METHOD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,13 +34,12 @@ jobs:
         run: CI=1 npx expo prebuild --platform ios --clean
 
       - name: Import signing certificate
-        if: ${{ secrets.IOS_CERTIFICATE_BASE64 != '' }}
-        env:
-          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
-          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
         run: |
           set -euo pipefail
+          if [ -z "${IOS_CERTIFICATE_BASE64:-}" ]; then
+            echo "No signing certificate configured, building unsigned IPA"
+            exit 0
+          fi
           echo "$IOS_CERTIFICATE_BASE64" | base64 --decode > cert.p12
           echo "$IOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > profile.mobileprovision
           KEYCHAIN_PASSWORD="build-keychain"
@@ -47,62 +52,46 @@ jobs:
           PROFILE_UUID=$(security cms -D -i profile.mobileprovision | /usr/libexec/PlistBuddy -c "Print :UUID" /dev/stdin)
           cp profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
 
-      - name: Archive signed app
-        if: ${{ secrets.IOS_CERTIFICATE_BASE64 != '' }}
-        env:
-          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+      - name: Archive and export IPA
         run: |
           set -euo pipefail
-          xcodebuild \
-            -workspace ios/GangDaAR.xcworkspace \
-            -scheme GangDaAR \
-            -configuration Release \
-            -archivePath build/GangDaAR.xcarchive \
-            -allowProvisioningUpdates \
-            DEVELOPMENT_TEAM="$IOS_TEAM_ID" \
-            archive
+          if [ -n "${IOS_CERTIFICATE_BASE64:-}" ]; then
+            xcodebuild \
+              -workspace ios/GangDaAR.xcworkspace \
+              -scheme GangDaAR \
+              -configuration Release \
+              -archivePath build/GangDaAR.xcarchive \
+              -allowProvisioningUpdates \
+              DEVELOPMENT_TEAM="$IOS_TEAM_ID" \
+              archive
 
-      - name: Export signed IPA
-        if: ${{ secrets.IOS_CERTIFICATE_BASE64 != '' }}
-        env:
-          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
-          IOS_EXPORT_METHOD: ${{ secrets.IOS_EXPORT_METHOD }}
-        run: |
-          set -euo pipefail
-          EXPORT_METHOD="${IOS_EXPORT_METHOD:-ad-hoc}"
-          plutil -create xml1 export-options.plist
-          plutil -insert method -string "$EXPORT_METHOD" export-options.plist
-          plutil -insert signingStyle -string manual export-options.plist
-          plutil -insert teamID -string "$IOS_TEAM_ID" export-options.plist
-          plutil -insert compileBitcode -bool NO export-options.plist
-          xcodebuild \
-            -exportArchive \
-            -archivePath build/GangDaAR.xcarchive \
-            -exportPath build/export \
-            -exportOptionsPlist export-options.plist \
-            -allowProvisioningUpdates
+            EXPORT_METHOD="${IOS_EXPORT_METHOD:-ad-hoc}"
+            plutil -create xml1 export-options.plist
+            plutil -insert method -string "$EXPORT_METHOD" export-options.plist
+            plutil -insert signingStyle -string manual export-options.plist
+            plutil -insert teamID -string "$IOS_TEAM_ID" export-options.plist
+            plutil -insert compileBitcode -bool NO export-options.plist
+            xcodebuild \
+              -exportArchive \
+              -archivePath build/GangDaAR.xcarchive \
+              -exportPath build/export \
+              -exportOptionsPlist export-options.plist \
+              -allowProvisioningUpdates
+          else
+            xcodebuild \
+              -workspace ios/GangDaAR.xcworkspace \
+              -scheme GangDaAR \
+              -configuration Release \
+              -archivePath build/GangDaAR-unsigned.xcarchive \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              archive
 
-      - name: Archive unsigned app
-        if: ${{ secrets.IOS_CERTIFICATE_BASE64 == '' }}
-        run: |
-          set -euo pipefail
-          xcodebuild \
-            -workspace ios/GangDaAR.xcworkspace \
-            -scheme GangDaAR \
-            -configuration Release \
-            -archivePath build/GangDaAR-unsigned.xcarchive \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            archive
-
-      - name: Package unsigned IPA
-        if: ${{ secrets.IOS_CERTIFICATE_BASE64 == '' }}
-        run: |
-          set -euo pipefail
-          mkdir -p build/unsigned/Payload
-          cp -R build/GangDaAR-unsigned.xcarchive/Products/Applications/GangDaAR.app build/unsigned/Payload/
-          cd build/unsigned
-          zip -qry ../GangDaAR-unsigned.ipa Payload
+            mkdir -p build/unsigned/Payload
+            cp -R build/GangDaAR-unsigned.xcarchive/Products/Applications/GangDaAR.app build/unsigned/Payload/
+            cd build/unsigned
+            zip -qry ../GangDaAR-unsigned.ipa Payload
+          fi
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
