@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "GangDaAR",
+    "slug": "gangda-ar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "gangdaar",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gangda.ar"
+    },
+    "android": {
+      "package": "com.gangda.ar",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      [
+        "@reactvision/react-viro",
+        {
+          "android": {
+            "xRMode": "AR"
+          },
+          "ios": {
+            "cameraUsagePermission": "GangDaAR 需要使用相机来在真实场景中放置高达模型。",
+            "microphoneUsagePermission": "GangDaAR 需要使用麦克风进行 AR 互动。",
+            "photosPermission": "GangDaAR 需要读取照片以支持 AR 功能。",
+            "savePhotosPermission": "GangDaAR 需要保存 AR 拍照结果到相册。"
+          },
+          "googleCloudApiKey": "Your Google Cloud API Key",
+          "provider": "reactvision",
+          "rvApiKey": "Add your API key here",
+          "rvProjectId": "Add your project ID here"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

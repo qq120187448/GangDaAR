@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Model Preview</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #d9d9d9;
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js",
+          "three/addons/": "./node_modules/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+      const params = new URLSearchParams(location.search);
+      const file = params.get("f") || "";
+      const rot = params.get("rot") || "none";
+      const canvas = document.getElementById("c");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xd9d9d9);
+
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.001, 100000);
+      const controls = new OrbitControls(camera, canvas);
+      controls.enableRotate = false;
+      controls.enableZoom = false;
+      controls.enablePan = false;
+
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x666666, 0.9));
+      const key = new THREE.DirectionalLight(0xffffff, 2.2);
+      key.position.set(2, 3, 4);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xbfd9ff, 0.8);
+      fill.position.set(-3, 1, -2);
+      scene.add(fill);
+
+      const loader = new GLTFLoader();
+      const draco = new DRACOLoader();
+      draco.setDecoderPath("./node_modules/three/examples/jsm/libs/draco/gltf/");
+      loader.setDRACOLoader(draco);
+      loader.load(
+        file.startsWith("http") ? file : "/" + file,
+        (gltf) => {
+          const model = gltf.scene;
+          scene.add(model);
+          if (rot === "x-90") model.rotation.set(-Math.PI / 2, 0, 0);
+          else if (rot === "z90") model.rotation.set(0, 0, Math.PI / 2);
+          else if (rot === "x90") model.rotation.set(Math.PI / 2, 0, 0);
+          else if (rot === "z-90") model.rotation.set(0, 0, -Math.PI / 2);
+          model.traverse((o) => {
+            if (o.isMesh && o.material) {
+              const mats = Array.isArray(o.material) ? o.material : [o.material];
+              mats.forEach((m) => {
+                m.side = THREE.DoubleSide;
+              });
+            }
+          });
+          const box = new THREE.Box3().setFromObject(model);
+          const size = new THREE.Vector3();
+          const center = new THREE.Vector3();
+          box.getSize(size);
+          box.getCenter(center);
+          window.__info = {
+            children: model.children.length,
+            size: [size.x, size.y, size.z],
+            min: box.min.toArray(),
+            max: box.max.toArray(),
+          };
+          model.position.sub(center);
+          const radius = Math.max(size.x, size.y, size.z) / 2 || 0.5;
+          camera.position.set(radius * 2.4, radius * 1.8, radius * 2.8);
+          camera.lookAt(0, 0, 0);
+          controls.target.set(0, 0, 0);
+          controls.update();
+          renderer.render(scene, camera);
+          window.__done = true;
+        },
+        undefined,
+        (err) => {
+          window.__error = String(err && err.message ? err.message : err);
+          window.__done = true;
+        }
+      );
+    </script>
+  </body>
+</html>

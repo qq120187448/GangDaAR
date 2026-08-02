@@ -1,0 +1,62 @@
+[
+  {
+    "input": "model_src/gundam_rx78_mg.glb",
+    "output": "assets/models/rx78.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/gundam_zaku2.glb",
+    "output": "assets/models/zaku2.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/LittlestTokyo.glb",
+    "output": "assets/models/littlest_tokyo.glb",
+    "rotation": [-1.5707963267948966, 0, 0]
+  },
+  {
+    "input": "model_src/kira.glb",
+    "output": "assets/models/kira.glb",
+    "rotation": [-1.5707963267948966, 0, 0]
+  },
+  {
+    "input": "model_src/bath_day.glb",
+    "output": "assets/models/bath_day.glb",
+    "rotation": [0, 0, 1.5707963267948966]
+  },
+  {
+    "input": "model_src/miku.glb",
+    "output": "assets/models/miku.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/doraemon.glb",
+    "output": "assets/models/doraemon.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/japanese_princess.glb",
+    "output": "assets/models/princess.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/omega_sisters.glb",
+    "output": "assets/models/omega_sisters.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/saber.glb",
+    "output": "assets/models/saber.glb",
+    "rotation": [0, 0, 1.5707963267948966]
+  },
+  {
+    "input": "model_src/kakashi.glb",
+    "output": "assets/models/kakashi.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/brave_raideen.glb",
+    "output": "assets/models/raideen.glb",
+    "rotation": [0, 0, 0]
+  }
+]
