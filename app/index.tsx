@@ -7,7 +7,7 @@ import { setModelState, useModelStore } from "@/stores/modelStore";
 
 const ARHome = () => {
   const insets = useSafeAreaInsets();
-  const { placed, modelIndex, yaw, flipX } = useModelStore();
+  const { placed, modelIndex, yaw, flipX, depthReady } = useModelStore();
 
   const current = MODEL_CATALOG[modelIndex];
 
@@ -67,7 +67,7 @@ const ARHome = () => {
           </Text>
           <Text style={styles.modelHint}>
             {placed
-              ? "拖动移动 · LiDAR 遮挡 · 实时光影"
+              ? `拖动移动 · ${depthReady ? "LiDAR 遮挡就绪" : "深度数据初始化中"}`
               : "轻点地面或墙面放置"}
           </Text>
         </View>

@@ -4,6 +4,8 @@ export type ModelEntry = {
   file: number;
   /** 模型实际高度，单位米。模型已归一化为 1 单位高，因此缩放值即米数。 */
   scale: number;
+  /** 脚底落地需要的 Y 偏移，单位米。 */
+  positionOffsetY?: number;
 };
 
 export const MODEL_CATALOG: ModelEntry[] = [
@@ -50,28 +52,29 @@ export const MODEL_CATALOG: ModelEntry[] = [
     scale: 1.293,
   },
   {
-    id: "princess",
-    name: "和风公主",
-    file: require("@/assets/models/princess.glb"),
+    id: "seed_san",
+    name: "Seed 酱",
+    file: require("@/assets/models/seed_san.glb"),
+    scale: 1.0135,
+  },
+  {
+    id: "twist_sample",
+    name: "Twist 酱",
+    file: require("@/assets/models/twist_sample.glb"),
     scale: 1.6,
   },
   {
-    id: "omega_sisters",
-    name: "Ω姐妹",
-    file: require("@/assets/models/omega_sisters.glb"),
-    scale: 1.55,
+    id: "three_vrm_girl",
+    name: "VRM 少女",
+    file: require("@/assets/models/three_vrm_girl.glb"),
+    scale: 0.9896,
+    positionOffsetY: 0.016,
   },
   {
     id: "saber",
     name: "Saber",
     file: require("@/assets/models/saber.glb"),
     scale: 1.54,
-  },
-  {
-    id: "kakashi",
-    name: "卡卡西",
-    file: require("@/assets/models/kakashi.glb"),
-    scale: 1.81,
   },
   {
     id: "raideen",

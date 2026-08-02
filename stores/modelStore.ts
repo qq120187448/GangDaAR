@@ -5,6 +5,7 @@ export type ModelStoreState = {
   yaw: number;
   flipX: boolean;
   placed: boolean;
+  depthReady: boolean;
 };
 
 let state: ModelStoreState = {
@@ -12,6 +13,7 @@ let state: ModelStoreState = {
   yaw: 0,
   flipX: false,
   placed: false,
+  depthReady: false,
 };
 
 const listeners = new Set<() => void>();

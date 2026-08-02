@@ -1,0 +1,17 @@
+[
+  {
+    "input": "model_src/seed_san.glb",
+    "output": "assets/models/seed_san.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/twist_sample.glb",
+    "output": "assets/models/twist_sample.glb",
+    "rotation": [0, 0, 0]
+  },
+  {
+    "input": "model_src/three_vrm_girl.glb",
+    "output": "assets/models/three_vrm_girl.glb",
+    "rotation": [0, 0, 0]
+  }
+]

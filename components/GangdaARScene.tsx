@@ -7,6 +7,7 @@ import {
   ViroARScene,
   ViroDirectionalLight,
   ViroMaterials,
+  ViroOmniLight,
   ViroQuad,
   ViroText,
 } from "@reactvision/react-viro";
@@ -45,6 +46,7 @@ const GangdaARScene = () => {
   return (
     <ViroARScene
       onAmbientLightUpdate={onAmbientLightUpdate}
+      onDepthReady={() => setModelState({ depthReady: true })}
       onAnchorFound={(anchor) => selectorRef.current?.handleAnchorFound(anchor)}
       onAnchorUpdated={(anchor) =>
         selectorRef.current?.handleAnchorUpdated(anchor)
@@ -56,9 +58,11 @@ const GangdaARScene = () => {
       <ViroAmbientLight
         color={ambientLight.color}
         intensity={ambientLight.intensity}
+        temperature={5200}
       />
       <ViroDirectionalLight
         color={ambientLight.color}
+        temperature={5200}
         direction={[0.4, -1, -0.3]}
         intensity={1.6}
         castsShadow
@@ -66,6 +70,12 @@ const GangdaARScene = () => {
         shadowBias={0.002}
         shadowOpacity={0.55}
         shadowOrthographicSize={4}
+      />
+      <ViroOmniLight
+        color={ambientLight.color}
+        position={[-1.2, 1.6, -0.6]}
+        intensity={0.45}
+        temperature={5200}
       />
 
       {!placed && (
@@ -87,7 +97,7 @@ const GangdaARScene = () => {
         <Viro3DObject
           key={current.id}
           source={current.file}
-          position={[0, 0, 0]}
+          position={[0, current.positionOffsetY ?? 0, 0]}
           scale={[unitScale, unitScale, unitScale]}
           rotation={[flipX ? Math.PI : 0, yaw, 0]}
           type="GLB"
