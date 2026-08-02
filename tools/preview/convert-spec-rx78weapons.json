@@ -1,0 +1,7 @@
+[
+  {
+    "input": "model_src/gundam_rx78_weapons.glb",
+    "output": "assets/models/rx78_weapons.glb",
+    "rotation": [0, 0, 0]
+  }
+]

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import {
   Viro3DObject,
@@ -6,20 +6,45 @@ import {
   ViroARPlaneSelector,
   ViroARScene,
   ViroDirectionalLight,
+  ViroMaterials,
+  ViroQuad,
   ViroText,
 } from "@reactvision/react-viro";
 import { MODEL_CATALOG } from "./modelCatalog";
 import { setModelState, useModelStore } from "@/stores/modelStore";
 
+ViroMaterials.createMaterials({
+  shadowCatcher: {
+    diffuseColor: "rgba(0, 0, 0, 0)",
+    blendMode: "Alpha",
+    cullMode: "None",
+  },
+});
+
 const GangdaARScene = () => {
   const selectorRef = useRef<ViroARPlaneSelector>(null);
   const { modelIndex, placed, yaw, flipX } = useModelStore();
+  const [ambientLight, setAmbientLight] = useState({
+    color: "#ffffff",
+    intensity: 300,
+  });
 
   const current = MODEL_CATALOG[modelIndex];
   const unitScale = current.scale;
 
+  const onAmbientLightUpdate = (update: {
+    intensity: number;
+    color: string;
+  }) => {
+    setAmbientLight({
+      color: update.color || "#ffffff",
+      intensity: Math.min(1000, Math.max(160, update.intensity)),
+    });
+  };
+
   return (
     <ViroARScene
+      onAmbientLightUpdate={onAmbientLightUpdate}
       onAnchorFound={(anchor) => selectorRef.current?.handleAnchorFound(anchor)}
       onAnchorUpdated={(anchor) =>
         selectorRef.current?.handleAnchorUpdated(anchor)
@@ -28,16 +53,24 @@ const GangdaARScene = () => {
         anchor && selectorRef.current?.handleAnchorRemoved(anchor)
       }
     >
-      <ViroAmbientLight color="#ffffff" intensity={260} />
+      <ViroAmbientLight
+        color={ambientLight.color}
+        intensity={ambientLight.intensity}
+      />
       <ViroDirectionalLight
-        color="#ffffff"
+        color={ambientLight.color}
         direction={[0.4, -1, -0.3]}
         intensity={1.6}
+        castsShadow
+        shadowMapSize={2048}
+        shadowBias={0.002}
+        shadowOpacity={0.55}
+        shadowOrthographicSize={4}
       />
 
       {!placed && (
         <ViroText
-          text="轻点地面，放置 2 米高模型"
+          text="轻点地面或墙面，放置模型"
           scale={[0.5, 0.5, 0.5]}
           position={[0, 0.4, -2.2]}
           style={styles.instruction}
@@ -48,6 +81,7 @@ const GangdaARScene = () => {
         ref={selectorRef}
         minHeight={0.15}
         minWidth={0.15}
+        alignment="Both"
         onPlaneSelected={() => setModelState({ placed: true })}
       >
         <Viro3DObject
@@ -63,6 +97,16 @@ const GangdaARScene = () => {
             planeNormal: [0, 1, 0],
             maxDistance: 8,
           }}
+          lightReceivingBitMask={3}
+          shadowCastingBitMask={2}
+        />
+        <ViroQuad
+          position={[0, 0.002, 0]}
+          rotation={[-90, 0, 0]}
+          width={3}
+          height={3}
+          materials={["shadowCatcher"]}
+          lightReceivingBitMask={2}
         />
       </ViroARPlaneSelector>
     </ViroARScene>

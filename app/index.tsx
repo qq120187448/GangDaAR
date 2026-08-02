@@ -39,6 +39,14 @@ const ARHome = () => {
       <ViroARSceneNavigator
         initialScene={{ scene: GangdaARScene }}
         style={styles.arNavigator}
+        worldAlignment="Gravity"
+        occlusionMode="depthBased"
+        depthEnabled
+        hdrEnabled
+        pbrEnabled
+        bloomEnabled
+        shadowsEnabled
+        multisamplingEnabled
       />
 
       <View style={[styles.topBar, { top: insets.top + 10 }]}>
@@ -58,7 +66,9 @@ const ARHome = () => {
             {current.name}
           </Text>
           <Text style={styles.modelHint}>
-            {placed ? "拖动移动 · 已放置 2 米模型" : "轻点地面放置"}
+            {placed
+              ? "拖动移动 · LiDAR 遮挡 · 实时光影"
+              : "轻点地面或墙面放置"}
           </Text>
         </View>
 
