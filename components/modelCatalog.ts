@@ -20,13 +20,13 @@ export const MODEL_CATALOG: ModelEntry[] = [
   },
   {
     id: "littlest_tokyo",
-    name: "Little Tokyo",
+    name: "小东京",
     file: require("@/assets/models/littlest_tokyo.glb"),
     scale: 2,
   },
   {
     id: "kira",
-    name: "Kira",
+    name: "基拉",
     file: require("@/assets/models/kira.glb"),
     scale: 2.1155,
   },

@@ -42,7 +42,7 @@ const ARHome = () => {
       />
 
       <View style={[styles.topBar, { top: insets.top + 10 }]}>
-        <Text style={styles.topTitle}>GangDaAR · 高达 AR</Text>
+        <Text style={styles.topTitle}>高达AR · 动漫模型</Text>
         <Text style={styles.topCount}>
           {modelIndex + 1} / {MODEL_CATALOG.length}
         </Text>

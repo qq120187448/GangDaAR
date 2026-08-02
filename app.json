@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gangda.ar"
+      "bundleIdentifier": "com.gangda.ar",
+      "infoPlist": {
+        "CFBundleDisplayName": "高达AR"
+      }
     },
     "android": {
       "package": "com.gangda.ar",
