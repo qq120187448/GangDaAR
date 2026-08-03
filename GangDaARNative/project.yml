@@ -18,6 +18,7 @@ targets:
       - path: GangDaAR
     resources:
       - path: Models
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gangda.arnative
