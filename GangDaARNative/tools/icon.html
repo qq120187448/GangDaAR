@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body {
+    margin: 0;
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .stage {
+    width: 1024px;
+    height: 1024px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0) 34%),
+      linear-gradient(150deg, #0d1b3e 0%, #123a8f 46%, #26a69a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+  }
+  .mech {
+    width: 430px;
+    height: 430px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.35));
+  }
+  .title {
+    font-size: 86px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .subtitle {
+    margin-top: 18px;
+    font-size: 34px;
+    font-weight: 500;
+    opacity: 0.86;
+    letter-spacing: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg class="mech" viewBox="0 0 200 200" fill="none">
+      <path d="M62 44 L84 34 L96 52 L84 58 Z" fill="#e0e6ff"/>
+      <path d="M138 44 L116 34 L104 52 L116 58 Z" fill="#e0e6ff"/>
+      <rect x="58" y="52" width="84" height="42" rx="8" fill="#d7301f"/>
+      <path d="M48 88 L152 88 L168 120 L150 124 L128 104 L72 104 L50 124 L32 120 Z" fill="#f2f5ff"/>
+      <rect x="76" y="76" width="12" height="12" rx="3" fill="#ffd54f"/>
+      <rect x="112" y="76" width="12" height="12" rx="3" fill="#ffd54f"/>
+      <rect x="92" y="84" width="16" height="6" rx="3" fill="#8b1e17"/>
+      <path d="M70 126 L130 126 L142 158 L58 158 Z" fill="#e8ecff"/>
+      <rect x="56" y="158" width="16" height="34" rx="7" fill="#d7301f"/>
+      <rect x="128" y="158" width="16" height="34" rx="7" fill="#d7301f"/>
+      <rect x="48" y="186" width="30" height="12" rx="6" fill="#3949ab"/>
+      <rect x="122" y="186" width="30" height="12" rx="6" fill="#3949ab"/>
+    </svg>
+    <div class="title">高达 AR</div>
+    <div class="subtitle">LiDAR · RealityKit</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+{
+  "models": [
+    {
+      "id": "rx78",
+      "name": "RX-78-2 高达",
+      "file": "rx78.usdz",
+      "source": "../../assets/models/rx78.glb",
+      "heightMeters": 2.0,
+      "category": "高达",
+      "accent": "#D7301F",
+      "rotationYDegrees": 0
+    },
+    {
+      "id": "zaku2",
+      "name": "夏亚专用扎古 II",
+      "file": "zaku2.usdz",
+      "source": "../../assets/models/zaku2.glb",
+      "heightMeters": 2.0,
+      "category": "高达",
+      "accent": "#B03A2E",
+      "rotationYDegrees": 0
+    },
+    {
+      "id": "rx78_weapons",
+      "name": "RX-78-2 武装型",
+      "file": "rx78_weapons.usdz",
+      "source": "../../assets/models/rx78_weapons.glb",
+      "heightMeters": 2.0,
+      "category": "高达",
+      "accent": "#C62828",
+      "rotationYDegrees": 0
+    },
+    {
+      "id": "raideen",
+      "name": "勇者莱丁",
+      "file": "raideen.usdz",
+      "source": "../../assets/models/raideen.glb",
+      "heightMeters": 2.0,
+      "category": "机甲",
+      "accent": "#F57C00",
+      "rotationYDegrees": 0
+    },
+    {
+      "id": "miku",
+      "name": "初音未来",
+      "file": "miku.usdz",
+      "source": "../../assets/models/miku.glb",
+      "heightMeters": 1.58,
+      "category": "角色",
+      "accent": "#00BCD4",
+      "rotationYDegrees": 0
+    },
+    {
+      "id": "pansy_miku",
+      "name": "潘西·初音",
+      "file": "pansy_miku.usdz",
+      "source": "../../assets/models/pansy_miku.glb",
+      "heightMeters": 1.58,
+      "category": "角色",
+      "accent": "#26A69A",
+      "rotationYDegrees": 180
+    },
+    {
+      "id": "earth_chan",
+      "name": "地球酱",
+      "file": "earth_chan.usdz",
+      "source": "../../assets/models/earth_chan.glb",
+      "heightMeters": 1.55,
+      "category": "角色",
+      "accent": "#42A5F5",
+      "rotationYDegrees": 180
+    },
+    {
+      "id": "vintage_dress",
+      "name": "复古洋装少女",
+      "file": "vintage_dress.usdz",
+      "source": "../../assets/models/vintage_dress.glb",
+      "heightMeters": 1.62,
+      "category": "角色",
+      "accent": "#8D6E63",
+      "rotationYDegrees": 180
+    },
+    {
+      "id": "doraemon",
+      "name": "哆啦A梦",
+      "file": "doraemon.usdz",
+      "source": "../../assets/models/doraemon.glb",
+      "heightMeters": 1.293,
+      "category": "角色",
+      "accent": "#1E88E5",
+      "rotationYDegrees": 0
+    }
+  ]
+}
