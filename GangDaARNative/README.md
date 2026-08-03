@@ -30,6 +30,8 @@
 
 ## 本地构建（需要 macOS + Xcode）
 
+部署目标为 iOS 18.0，适用于 iPhone 12 Pro 等已升级到 iOS 18 的 LiDAR 机型。
+
 ```bash
 brew install xcodegen
 cd GangDaARNative

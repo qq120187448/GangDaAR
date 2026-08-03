@@ -43,7 +43,7 @@ final class ARContainer: ARView, ARSessionDelegate, ObservableObject {
     private var sunLight: DirectionalLight?
     private var fillLight: DirectionalLight?
 
-    override init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame, cameraMode: .ar, automaticallyConfigureSession: true)
         configure()
     }
@@ -94,9 +94,7 @@ final class ARContainer: ARView, ARSessionDelegate, ObservableObject {
         let sun = DirectionalLight()
         sun.light.intensity = 1100
         sun.light.color = UIColor(red: 1.00, green: 0.97, blue: 0.90, alpha: 1)
-        sun.light.castsShadow = true
-        sun.light.shadowMaximumDistance = 10
-        sun.light.shadowDepthBias = 0.02
+        sun.shadow = DirectionalLightComponent.Shadow(maximumDistance: 10, depthBias: 0.02)
         sun.orientation =
             simd_quatf(angle: -0.7, axis: SIMD3<Float>(1, 0, 0)) *
             simd_quatf(angle: 0.6, axis: SIMD3<Float>(0, 1, 0))
@@ -118,7 +116,9 @@ final class ARContainer: ARView, ARSessionDelegate, ObservableObject {
 
     private func applyLighting() {
         environment.lighting.intensityExponent = environmentLightEnabled ? 1.0 : 0.2
-        sunLight?.light.castsShadow = shadowsEnabled
+        sunLight?.shadow = shadowsEnabled
+            ? DirectionalLightComponent.Shadow(maximumDistance: 10, depthBias: 0.02)
+            : nil
         sunLight?.light.intensity = environmentLightEnabled ? 1100 : 250
         fillLight?.light.intensity = environmentLightEnabled ? 180 : 60
     }
