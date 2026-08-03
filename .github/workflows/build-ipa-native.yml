@@ -85,9 +85,9 @@ jobs:
               -derivedDataPath build/DerivedData \
               CODE_SIGNING_ALLOWED=NO \
               build
-            mkdir -p build/export
-            ditto build/DerivedData/Build/Products/Release-iphoneos/GangDaAR.app build/export/GangDaAR.app
-            (cd build/export && zip -qry GangDaAR-unsigned.ipa GangDaAR.app)
+            mkdir -p build/export/Payload
+            ditto build/DerivedData/Build/Products/Release-iphoneos/GangDaAR.app build/export/Payload/GangDaAR.app
+            (cd build/export && zip -qry GangDaAR-unsigned.ipa Payload)
           fi
 
       - name: Upload IPA
