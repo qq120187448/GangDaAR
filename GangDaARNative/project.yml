@@ -19,6 +19,15 @@ targets:
     resources:
       - path: Models
         buildPhase: resources
+    postCompileScripts:
+      - name: Copy AR Models
+        script: |
+          set -e
+          RESOURCE_DIR="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
+          mkdir -p "$RESOURCE_DIR"
+          cp "$SRCROOT/Models/"*.usdz "$RESOURCE_DIR/"
+          cp "$SRCROOT/Models/models.json" "$RESOURCE_DIR/"
+        basedOnDependencyAnalysis: false
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gangda.arnative
